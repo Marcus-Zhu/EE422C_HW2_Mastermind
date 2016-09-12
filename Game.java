@@ -54,6 +54,10 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Check for Y/N input
+	 * @return true for Y, false for N
+	 */
 	public boolean inputYN() {
 		char start;
 		boolean inputValid = true;
@@ -75,17 +79,29 @@ public class Game {
 		return false;
 	}
 
+	/**
+	 * If the player wants to restart the game
+	 * @return whether to restart
+	 */
 	public boolean restart() {
 		System.out.print("Are you ready for another game (Y/N)");
 		return inputYN();
 	}
-
+	
+	/**
+	 * If the player wants to quit the game
+	 * @return
+	 */
 	public boolean gameQuited() {
 		if (gameTerminated)
 			System.out.println("Thank you for playing. Goodbye.");
 		return gameTerminated;
 	}
 
+	/**
+	 * If all guesses have been used or the player wins, game ends
+	 * @return whether game ends
+	 */
 	public boolean gameEnded() {
 		return !gameStarted;
 	}
@@ -105,6 +121,10 @@ public class Game {
 		System.out.println("You have " + currentCnt + " guess" + (currentCnt > 1 ? "es" : "") + " left.");
 	}
 
+	/**
+	 * Next step callback for Game class
+	 * @return next step has excecuted
+	 */
 	public boolean next() {
 		if (guessCnt == GameConfiguration.guessNumber) {
 			System.out.println("Sorry, you are out of guesses. You lose, boo-hoo.\n");
@@ -127,6 +147,11 @@ public class Game {
 		return false;
 	}
 
+	/**
+	 * Check input for player in the game
+	 * @param inputStr from Scanner
+	 * @return input info, int[1] for non-code, int[2] for result pegs
+	 */
 	public int[] checkInput(String[] inputStr) {
 		try {
 			inputStr[0] = scanner.nextLine();
@@ -142,6 +167,11 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Return the result of player's guess
+	 * @param code input by user
+	 * @return int[2] of result pegs
+	 */
 	public int[] guess(String code) {
 		int[] result = new int[2];
 		if (isValidCode(code)) {
@@ -161,6 +191,11 @@ public class Game {
 			return new int[1];
 	}
 
+	/**
+	 * Calculate the number of black/white pegs for a certain code
+	 * @param code
+	 * @return int[2] of pegs count
+	 */
 	public int[] validate(String code) {
 		int[] result = new int[] { 0, 0 };
 		if (code.equals(secretCode)) {
@@ -177,10 +212,12 @@ public class Game {
 					i--;
 				}
 			}
-			for (int i = 0; i < str1.length(); i++) {
-				for (int j = 0; j < str2.length(); j++) {
-					if (str1.charAt(i) == str2.charAt(j)) {
+			for (int i = 0; i < str2.length(); i++) {
+				for (int j = 0; j < str1.length(); j++) {
+					if (str1.charAt(j) == str2.charAt(i)) {
 						result[1]++;
+						str1.deleteCharAt(j);
+						j--;
 					}
 				}
 			}
@@ -188,6 +225,11 @@ public class Game {
 		return result;
 	}
 
+	/**
+	 * Check if input code is a valid combination of colors.
+	 * @param code input by player
+	 * @return whether input code is valid
+	 */
 	public boolean isValidCode(String code) {
 		if (code.length() != GameConfiguration.pegNumber) {
 			System.out.println(code + " -> INVALID GUESS\n");

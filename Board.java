@@ -60,6 +60,10 @@ public class Board {
 		System.out.println("\n---\t-------------------------\t---\n");
 	}
 	
+	/**
+	 * Print guess result
+	 * @param guessResult int[2] of pegs count
+	 */
 	public void printPegs(int[] guessResult) {
 		if (guessResult[0] == 1)
 			System.out.print(guessResult[0] + " black peg\t");
