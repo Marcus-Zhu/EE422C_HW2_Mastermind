@@ -6,26 +6,24 @@
  * Fall 2016
  */
 
- package assignment2;
+package assignment2;
 
-public class Main {
+import java.util.Scanner;
+
+public class Driver {
 	public static void main(String[] argv) {
 		Game g;
+		Scanner s = new Scanner(System.in);
 		boolean gameParam = false;
 		if (argv.length > 0) {
 			gameParam = (argv[0].equals("1"));
 		}
-		System.out.println(gameParam);
 		do {
 			// set param to false if don't want secret code shown
 			g = new Game(gameParam); 
-			if (g.gameQuited())
+			g.setScanner(s);
+			if (!g.runGame())
 				break;
-			while (true) {
-				if (g.gameEnded())
-					break;				
-				g.next();
-			}
 		} while(g.restart());
 	}
 }

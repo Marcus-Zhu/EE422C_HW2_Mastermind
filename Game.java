@@ -20,7 +20,7 @@ public class Game {
 	private int guessCnt;
 	private String secretCode = "";
 	private Board board = new Board();
-	private Scanner scanner = new Scanner(System.in);
+	private Scanner scanner;
 	private String initGreetingStr1 = "Welcome to Mastermind. Here are the rules.\n\n"
 			+ "This is a text version of the classic board game Mastermind. "
 			+ "The computer will think of a secret code. The code consists of ";
@@ -47,11 +47,6 @@ public class Game {
 		inTestMode = isTesting;
 		System.out.print(initGreetingStr1 + GameConfiguration.pegNumber + initGreetingStr2
 				+ GameConfiguration.guessNumber + initGreetingStr3);
-		gameTerminated = !inputYN();
-		if (!gameTerminated) {
-			gameStarted = true;
-			generateCode();
-		}
 	}
 
 	/**
@@ -120,6 +115,24 @@ public class Game {
 		board.setCode(secretCode);
 		int currentCnt = (GameConfiguration.guessNumber - guessCnt);
 		System.out.println("You have " + currentCnt + " guess" + (currentCnt > 1 ? "es" : "") + " left.");
+	}
+	
+	public boolean runGame(){
+		if (gameQuited())
+			return false;
+		while (!gameEnded()) {		
+			next();
+		}
+		return true;
+	}
+	
+	public void setScanner(Scanner s) {
+		scanner = s;
+		gameTerminated = !inputYN();
+		if (!gameTerminated) {
+			gameStarted = true;
+			generateCode();
+		}
 	}
 
 	/**
