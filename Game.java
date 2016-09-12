@@ -111,11 +111,12 @@ public class Game {
 	 */
 	public void generateCode() {
 		System.out.println("\nGenerating secret code ....\n");
-		secretCode = "";
-		Random rand = new Random();
-		for (int i = 0; i < GameConfiguration.pegNumber; i++) {
-			secretCode += GameConfiguration.colors[rand.nextInt(GameConfiguration.colors.length)];
-		}
+		secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
+//		secretCode = "";
+//		Random rand = new Random();
+//		for (int i = 0; i < GameConfiguration.pegNumber; i++) {
+//			secretCode += GameConfiguration.colors[rand.nextInt(GameConfiguration.colors.length)];
+//		}
 		board.setCode(secretCode);
 		int currentCnt = (GameConfiguration.guessNumber - guessCnt);
 		System.out.println("You have " + currentCnt + " guess" + (currentCnt > 1 ? "es" : "") + " left.");
@@ -127,7 +128,7 @@ public class Game {
 	 */
 	public boolean next() {
 		if (guessCnt == GameConfiguration.guessNumber) {
-			System.out.println("Sorry, you are out of guesses. You lose, boo-hoo.\n");
+			System.out.println("\n\nSorry, you are out of guesses. You lose, boo-hoo.\n");
 			gameStarted = false;
 			return false;
 		}
@@ -159,11 +160,12 @@ public class Game {
 			System.err.println("Scanner Error!");
 			return new int[1];
 		}
-		if (inputStr[0].toLowerCase().equals("history")) {
+		String arguStr = inputStr[0].toUpperCase();
+		if (arguStr.equals("HISTORY")) {
 			board.displayHist();
 			return new int[1];
 		} else {
-			return guess(inputStr[0]);
+			return guess(arguStr);
 		}
 	}
 
@@ -182,7 +184,8 @@ public class Game {
 			board.setHist(code, result);
 			if (result[0] != 4) {
 				int currentCnt = (GameConfiguration.guessNumber - guessCnt);
-				System.out.println("\n\nYou have " + currentCnt + " guess" + (currentCnt > 1 ? "es" : "") + " left.");
+				if (currentCnt > 0)
+					System.out.println("\n\nYou have " + currentCnt + " guess" + (currentCnt > 1 ? "es" : "") + " left.");
 			} else {
 				System.out.println(" - You Win!!\n");
 			}

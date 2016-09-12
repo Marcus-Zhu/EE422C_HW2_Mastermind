@@ -50,14 +50,17 @@ public class Board {
 	 * Display player's guess history and guess results.
 	 */
 	public void displayHist() {
-		System.out.println("\n---\tFollowing is the history\t---\n");
-		System.out.println("You have made " + guessCnt + " guess" + (guessCnt > 1 ? "es" : "") + ".\n");
+//		System.out.println("\n---\tFollowing is the history\t---\n");
+//		System.out.println("You have made " + guessCnt + " guess" + (guessCnt > 1 ? "es" : "") + ".\n");
+		System.out.println();
 		for (int i = 0; i < guessCnt; i++) {
 			System.out.print(guessHist[i] + "\t\t");
-			printPegs(guessResult[i]);
-			System.out.println("");
+			System.out.print(guessResult[i][0] + "B_"+guessResult[i][1]+"W\n");			
+//			printPegs(guessResult[i]);
+//			System.out.println();
 		}
-		System.out.println("\n---\t-------------------------\t---\n");
+		System.out.println();
+//		System.out.println("\n---\t-------------------------\t---\n");
 	}
 	
 	/**
