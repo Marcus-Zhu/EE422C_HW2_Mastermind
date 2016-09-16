@@ -89,7 +89,7 @@ public class Game {
 	 */
 	public boolean gameQuited() {
 		if (gameTerminated)
-			System.out.println("Thank you for playing. Goodbye.");
+			System.out.println("");
 		return gameTerminated;
 	}
 
@@ -105,13 +105,17 @@ public class Game {
 	 * Generate the secret code.
 	 */
 	public void generateCode() {
-		System.out.println("\nGenerating secret code ....\n");
+		System.out.println("\nGenerating secret code ....");
 		secretCode = SecretCodeGenerator.getInstance().getNewSecretCode();
 //		secretCode = "";
 //		Random rand = new Random();
 //		for (int i = 0; i < GameConfiguration.pegNumber; i++) {
 //			secretCode += GameConfiguration.colors[rand.nextInt(GameConfiguration.colors.length)];
 //		}
+		if (inTestMode)
+			System.out.println(secretCode);
+		
+		System.out.println();
 		board.setCode(secretCode);
 		int currentCnt = (GameConfiguration.guessNumber - guessCnt);
 		System.out.println("You have " + currentCnt + " guess" + (currentCnt > 1 ? "es" : "") + " left.");
@@ -141,12 +145,10 @@ public class Game {
 	 */
 	public boolean next() {
 		if (guessCnt == GameConfiguration.guessNumber) {
-			System.out.println("\n\nSorry, you are out of guesses. You lose, boo-hoo.\n");
+			System.out.println("(Sorry, you are out of guesses. You lose, boo-hoo.)\n");
 			gameStarted = false;
 			return false;
 		}
-		if (inTestMode)
-			System.out.println("TEST MODE: secret code is: " + secretCode);
 
 		System.out.print("What is your next guess?\n" + "Type in the characters for your guess and press enter.\n"
 				+ "Enter guess:");
@@ -193,8 +195,10 @@ public class Game {
 			guessCnt++;
 			System.out.print("\n" + code + " -> Result:\t");
 			result = validate(code);
-			board.printPegs(result);
-			board.setHist(code, result);
+			if (guessCnt != GameConfiguration.guessNumber){
+				board.printPegs(result);
+				board.setHist(code, result);
+			}
 			if (result[0] != 4) {
 				int currentCnt = (GameConfiguration.guessNumber - guessCnt);
 				if (currentCnt > 0)

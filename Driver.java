@@ -1,7 +1,7 @@
 /*  * EE422C Project 2 (Mastermind) submission by
  * Yilin Zhu
  * yz22778
- * <Your GIT URL>
+ * https://github.com/Marcus-Zhu/EE422C_HW2_Mastermind/
  * Slip days used: <0>
  * Fall 2016
  */
